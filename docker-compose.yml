@@ -28,14 +28,13 @@ services:
       # Exclude node_modules from being overwritten by the host's files
       - /usr/src/app/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=dev
       - DB_TYPE=postgresql
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=tasky
-    command: npm run start:dev
     depends_on:
       - postgres
     networks:
