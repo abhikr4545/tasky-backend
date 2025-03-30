@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: tasky_db_container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tasky
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - tasky-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: tasky_app_container
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source code for live changes
+      - .:/usr/src/app
+      # Exclude node_modules from being overwritten by the host's files
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DB_TYPE=postgresql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=tasky
+    command: npm run start:dev
+    depends_on:
+      - postgres
+    networks:
+      - tasky-network
+
+volumes:
+  pg_data:
+
+networks:
+  tasky-network:
+    driver: bridge
