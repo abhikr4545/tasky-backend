@@ -9,7 +9,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { ZodValidationPipe } from 'src/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from '../../pipes/zod-validation.pipe';
 import { CreateTaskDto, createTaskSchema } from './create-task.schema';
 
 @Controller('tasks')
